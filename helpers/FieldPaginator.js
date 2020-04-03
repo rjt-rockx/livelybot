@@ -2,7 +2,7 @@ const { RichEmbed } = require("discord.js");
 const chunk = (a, l) => a.length === 0 ? [] : [a.slice(0, l)].concat(chunk(a.slice(l), l));
 
 module.exports = class fieldPaginator {
-	constructor(channel, member, fields, timeout, options) {
+	constructor(channel, member, fields, timeout = 30, options) {
 		this.back = "◀";
 		this.next = "▶";
 		this.stop = "⏹";
@@ -12,7 +12,7 @@ module.exports = class fieldPaginator {
 		if (options.numberFields)
 			fields = fields.map((field, index) => ({ ...field, name: `${index + 1}. ${field.name}` }));
 		if (typeof options.chunkSize !== "number" || options.chunkSize < 1 || options.chunkSize > 12)
-			options.chunkSize = 5;
+			options.chunkSize = 6;
 		if (typeof options.defaultPage !== "number" || !(options.defaultPage >= 0 && options.defaultPage <= fields.length))
 			options.defaultPage = 0;
 		this.current = options.defaultPage;
@@ -37,13 +37,13 @@ module.exports = class fieldPaginator {
 					case this.back: {
 						this.current--;
 						if (this.current < 0) this.current = this.total - 1;
-						reaction.remove(member);
+						reaction.remove(member).catch(() => { });
 						break;
 					}
 					case this.next: {
 						this.current++;
 						if (this.current > this.total - 1) this.current = 0;
-						reaction.remove(member);
+						reaction.remove(member).catch(() => { });
 						break;
 					}
 					case this.stop: {
@@ -54,7 +54,7 @@ module.exports = class fieldPaginator {
 				this.refresh();
 			});
 
-			this.collector.on("end", () => this.message.clearReactions());
+			this.collector.on("end", () => this.message.clearReactions().catch(() => {}));
 		});
 	}
 

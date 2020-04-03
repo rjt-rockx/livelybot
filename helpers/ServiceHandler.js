@@ -44,6 +44,7 @@ module.exports = class ServiceHandler {
 			"messageDeleteBulk",
 			"messageReactionAdd",
 			"messageReactionRemove",
+			"messageReactionRemoveEmoji",
 			"messageReactionRemoveAll",
 			"messageUpdate",
 			"presenceUpdate",

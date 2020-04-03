@@ -90,6 +90,12 @@ const fetchContext = (client, event, args) => {
 		getGuild(context);
 		getMember(context);
 	}
+	else if (event === "messageReactionRemoveEmoji") {
+		[context.reaction] = args;
+		getMessage(context);
+		getChannel(context);
+		getGuild(context);
+	}
 	else if (event == "messageUpdate") {
 		[context.oldMessage, context.newMessage] = args;
 		getMessage(context);
