@@ -35,7 +35,7 @@ module.exports = class RawEventHandler extends BaseService {
 
 	onRaw(ctx) {
 		if (!ctx.type) return;
-		if (["messageReactionAdd", "messageReactionRemove"].includes(ctx.type))
+		if (["messageReactionAdd", "messageReactionRemove", "messageReactionRemove"].includes(ctx.type))
 			return this.parseRawReactionEvent(ctx);
 	}
 };
